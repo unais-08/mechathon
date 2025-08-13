@@ -8,13 +8,14 @@ import {
   deleteLoggedInAdmin,
 } from '../controllers/admin.controller.js';
 import verifyToken from '../middlewares/auth.js';
+import { loginRateLimiter } from '../middlewares/rateLimiter.js';
 
 const router = express.Router();
 
 // 🔓 Public Routes
 
 router.post('/register', registerAdmin);
-router.post('/login', loginAdmin);
+router.post('/login', loginRateLimiter, loginAdmin);
 
 // 🔐 Protected Routes (require valid JWT)
 
