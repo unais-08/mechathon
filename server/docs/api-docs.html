@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>API Documentation</h1>
+        <p>RESTful API for managing administrators, blog posts, and sponsorships</p>
+        <div class="base-url">https://yourdomain.com/api</div>
+      </header>
+
+      <div class="content">
+        <div class="nav-section">
+          <div class="nav-links">
+            <a href="#admin-apis" class="nav-link">Admin Management</a>
+            <a href="#blog-apis" class="nav-link">Blog Management</a>
+            <a href="#sponsor-apis" class="nav-link">Sponsor Management</a>
+          </div>
+        </div>
+
+        <section id="admin-apis" class="section">
+          <h2 class="section-title">Admin Management</h2>
+
+          <table class="endpoint-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">Method</th>
+                <th style="width: 200px">Endpoint</th>
+                <th style="width: 120px">Auth</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="method post">POST</span></td>
+                <td><span class="endpoint-path">/api/admin/register</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">Register a new administrator account</div>
+                  <div class="code-example">
+                    { "name": "John Doe", "email": "john@example.com", "password":
+                    "securePassword123" }
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method post">POST</span></td>
+                <td><span class="endpoint-path">/api/admin/login</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">Authenticate admin and receive JWT token</div>
+                  <div class="code-example">
+                    { "email": "john@example.com", "password": "securePassword123" }
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/admin/</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Retrieve list of all administrators</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/admin/:id</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Get specific administrator by ID</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method delete">DELETE</span></td>
+                <td><span class="endpoint-path">/api/admin/me</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Delete current admin account (irreversible)</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method delete">DELETE</span></td>
+                <td><span class="endpoint-path">/api/admin/:id</span></td>
+                <td><span class="auth-badge auth-admin">Super Admin</span></td>
+                <td>
+                  <div class="description">Delete administrator by ID (super admin only)</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="blog-apis" class="section">
+          <h2 class="section-title">Blog Management</h2>
+
+          <table class="endpoint-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">Method</th>
+                <th style="width: 200px">Endpoint</th>
+                <th style="width: 120px">Auth</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/blogs/</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">Retrieve all published blog posts</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/blogs/:id</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">Get specific blog post by ID</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method post">POST</span></td>
+                <td><span class="endpoint-path">/api/blogs/</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Create new blog post</div>
+                  <div class="code-example">
+                    { "title": "How Gears Work", "content": "This is a detailed blog about gears..."
+                    }
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method put">PUT</span></td>
+                <td><span class="endpoint-path">/api/blogs/:id</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Update existing blog post</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method delete">DELETE</span></td>
+                <td><span class="endpoint-path">/api/blogs/:id</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Delete blog post permanently</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="sponsor-apis" class="section">
+          <h2 class="section-title">Sponsorship Management</h2>
+
+          <table class="endpoint-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">Method</th>
+                <th style="width: 200px">Endpoint</th>
+                <th style="width: 120px">Auth</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="method post">POST</span></td>
+                <td><span class="endpoint-path">/api/sponsors/submit</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">Submit new sponsorship request</div>
+                  <div class="code-example">
+                    { "name": "Alice Johnson", "company_name": "TechCorp Solutions", "email":
+                    "alice@techcorp.com", "phone": "1234567890", "message": "We'd love to discuss
+                    sponsorship opportunities." }
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/sponsors/requests</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Retrieve all sponsorship requests</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method put">PUT</span></td>
+                <td><span class="endpoint-path">/api/sponsors/requests/:id/status</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Update sponsorship request status</div>
+                  <div class="code-example">{ "status": "approved" }</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/sponsors/requests/approved</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Get all approved sponsorship requests</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section id="history-apis" class="section">
+          <h2 class="section-title">History Management</h2>
+
+          <table class="endpoint-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">Method</th>
+                <th style="width: 200px">Endpoint</th>
+                <th style="width: 120px">Auth</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/history/</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">View all history entries</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span></td>
+                <td><span class="endpoint-path">/api/history/:year</span></td>
+                <td><span class="auth-badge auth-public">Public</span></td>
+                <td>
+                  <div class="description">View history entries by specific year</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method post">POST</span></td>
+                <td><span class="endpoint-path">/api/history/</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Create new history entry (admin only)</div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method delete">DELETE</span></td>
+                <td><span class="endpoint-path">/api/history/:id</span></td>
+                <td><span class="auth-badge auth-required">Bearer Token</span></td>
+                <td>
+                  <div class="description">Delete history entry by ID (admin only)</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <p><strong>API Version:</strong> 1.0 | <strong>Last Updated:</strong> August 2025</p>
+      </footer>
+    </div>
+  </body>
+</html>
