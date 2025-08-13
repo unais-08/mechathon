@@ -6,6 +6,7 @@ import { healthCheckRouter } from './routes/test.routes.js';
 import { adminRouter } from './routes/admin.routes.js';
 import { blogRouter } from './routes/blog.routes.js';
 import { sponsorRouter } from './routes/sponsor.routes.js';
+import { historyRouter } from './routes/history.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -30,6 +31,8 @@ app.use('/api/blogs', blogRouter);
 // Sponsor routes
 app.use('/api/sponsors', sponsorRouter);
 
+// History routes
+app.use('/api/history', historyRouter);
 // -------------------- SERVER START -------------------- //
 
 app.listen(PORT, () => {
