@@ -23,7 +23,19 @@ export const createBlog = async (req, res) => {
 // @route   GET /api/blogs/
 export const fetchAllBlogs = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM blogs ORDER BY created_at DESC');
+    // const result = await pool.query('SELECT * FROM blogs ORDER BY created_at DESC');
+    const result = await pool.query(`
+      SELECT 
+        blogs.id,
+        blogs.title,
+        blogs.content,
+        blogs.created_at,
+        admins.name AS author
+      FROM blogs
+      JOIN admins ON blogs.author_id = admins.id
+      ORDER BY blogs.created_at DESC
+    `);
+    console.log(result.rows)
     return successResponse(res, 'Blogs fetched', result.rows);
   } catch (err) {
     return errorResponse(res, 'Failed to fetch blogs', 500, err.message);
