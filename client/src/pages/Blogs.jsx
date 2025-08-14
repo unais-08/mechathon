@@ -57,7 +57,7 @@ const BlogsPage = () => {
               <h2 className="text-2xl font-semibold">{blog.title}</h2>
               <p className="text-muted-foreground mt-2">{blog.content}</p>
               <p className="text-sm mt-4 text-right text-gray-500">
-                By {blog.author_id || 'Admin'} • {new Date(blog.created_at).toLocaleDateString()}
+                By {blog.author || 'Admin'} • {new Date(blog.created_at).toLocaleDateString()}
               </p>
             </CardContent>
           </Card>
