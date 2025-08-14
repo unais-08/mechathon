@@ -1,9 +1,8 @@
-import { Button } from "./components/ui/button";
+import AdminAuthSystem from "@/components/auth/login";
 const App = () => {
   return (
     <>
-      <div>Hello From React!</div>
-      <Button>Hello</Button>
+      <AdminAuthSystem />
     </>
   );
 };
