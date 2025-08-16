@@ -57,14 +57,17 @@ const Blog = ({ blogs }) => {
                     }`}
                   >
                     <a
-                      href={post.url}
+                      href={post.url || '#'}
                       target="_blank"
                       className="block group/image"
                       rel="noopener noreferrer"
                     >
                       <div className="aspect-[4/3] md:aspect-[3/4] lg:aspect-[4/3] overflow-hidden relative">
                         <img
-                          src={post.image || 'https://via.placeholder.com/400x300'}
+                          src={
+                            post.image ||
+                            'https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=600&h=400&fit=crop'
+                          }
                           alt={post.title}
                           className="h-full w-full object-cover transition-all duration-300 group-hover/image:scale-105"
                         />
