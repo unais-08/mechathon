@@ -3,6 +3,7 @@ import axios from '@/utils/axiosInstance';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Blog } from '@/components/common/Blog';
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -35,36 +36,7 @@ const BlogsPage = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="p-6">
-        <Alert variant="destructive">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
-
-  return (
-    <div className="p-6 grid gap-6">
-      {blogs.length === 0 ? (
-        <p className="text-muted-foreground">No blogs available yet.</p>
-      ) : (
-        blogs.map((blog) => (
-          <Card key={blog.id} className="shadow">
-            <CardContent className="py-6">
-              <h2 className="text-2xl font-semibold">{blog.title}</h2>
-              <p className="text-muted-foreground mt-2">{blog.content}</p>
-              <p className="text-sm mt-4 text-right text-gray-500">
-                By {blog.author || 'Admin'} • {new Date(blog.created_at).toLocaleDateString()}
-              </p>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    </div>
-  );
+  return <Blog blogs={blogs} />;
 };
 
 export default BlogsPage;

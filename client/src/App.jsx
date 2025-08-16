@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { AuthProvider } from '@/context/AuthContext';
-import Navbar from '@/components/common/Navbar';
 
 import Home from '@/pages/Home';
 import Blogs from '@/pages/Blogs';
@@ -10,6 +9,7 @@ import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import DashboardPage from '@/pages/DashboardPage';
 import ProtectedRoute from '@/components/common/ProtectedRoute';
+import { Navbar } from '@/components/common/Navbar';
 
 function App() {
   return (

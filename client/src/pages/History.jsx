@@ -3,6 +3,7 @@ import axios from '@/utils/axiosInstance';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Timeline } from '@/components/common/Timeline';
 
 const HistoryPage = () => {
   const [history, setHistory] = useState([]);
@@ -46,35 +47,7 @@ const HistoryPage = () => {
     );
   }
 
-  return (
-    <div className="p-6 grid gap-6">
-      {history.length === 0 ? (
-        <p className="text-muted-foreground">No hackathon history found.</p>
-      ) : (
-        history.map((entry) => (
-          <Card key={entry.id} className="shadow-md">
-            <CardContent className="py-6 space-y-2">
-              <h2 className="text-xl font-semibold">{entry.title}</h2>
-              <p className="text-muted-foreground text-sm">Year: {entry.year}</p>
-              <p>
-                <span className="font-medium">Team:</span> {entry.team_name}
-              </p>
-              <p>
-                <span className="font-medium">Position:</span> #{entry.position}
-              </p>
-              <p>
-                <span className="font-medium">Project:</span> {entry.project_title}
-              </p>
-              <p className="text-sm text-gray-700">{entry.description}</p>
-              <p className="text-xs text-gray-400 text-right">
-                Posted on {new Date(entry.created_at).toLocaleDateString()}
-              </p>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    </div>
-  );
+  return <Timeline history={history} />;
 };
 
 export default HistoryPage;

@@ -1,322 +1,275 @@
-// File: src/components/navigation/Navbar.jsx
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Menu, Home, BookOpen, History, Settings, User, LogOut, Wrench } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import {
-  Wrench,
-  Menu,
-  X,
-  Home,
-  BookOpen,
-  History,
-  LayoutDashboard,
-  PlusCircle,
-  FileText,
-  LogOut,
-  Shield,
-  User,
-  ChevronDown,
-} from 'lucide-react';
-
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const { isAuthenticated, adminData, logout } = useAuth();
-  const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-    setIsUserMenuOpen(false);
-  }, [location]);
-
-  const handleLogout = () => {
-    logout();
-    setIsUserMenuOpen(false);
-  };
-
-  const isActivePath = (path) => {
-    return location.pathname === path;
-  };
-
   const publicNavItems = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/blogs', label: 'Blogs', icon: BookOpen },
-    { path: '/history', label: 'Hackathon History', icon: History },
+    { path: '/history', label: 'History', icon: History },
   ];
 
-  const adminNavItems = [
-    { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { path: '/admin/create-blog', label: 'Create Blog', icon: PlusCircle },
-    { path: '/admin/create-history', label: 'Create History', icon: FileText },
+  const adminFeatures = [
+    {
+      title: 'Dashboard',
+      description: 'Overview of your activity and analytics',
+      href: '/admin/dashboard',
+      icon: '📊',
+    },
+    {
+      title: 'Create Blog',
+      description: 'Write and publish new blog posts',
+      href: '/admin/create-blog',
+      icon: '✍️',
+    },
+    {
+      title: 'Track History',
+      description: 'Manage hackathon and event history',
+      href: '/admin/create-history',
+      icon: '📝',
+    },
+    {
+      title: 'Sponsor Requests',
+      description: 'Review and manage sponsor applications',
+      href: '/admin/sponsors',
+      icon: '🤝',
+    },
+    {
+      title: 'Manage Blogs',
+      description: 'Edit and organize your blog content',
+      href: '/admin/blogs',
+      icon: '📚',
+    },
+    {
+      title: 'Team Settings',
+      description: 'Configure team and system settings',
+      href: '/admin/settings',
+      icon: '⚙️',
+    },
   ];
-
-  const NavLink = ({ to, children, icon: Icon, className = '' }) => (
-    <Link
-      to={to}
-      className={`
-        flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
-        ${
-          isActivePath(to)
-            ? 'bg-blue-100 text-blue-700 shadow-sm'
-            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-        }
-        ${className}
-      `}
-    >
-      {Icon && <Icon className="w-4 h-4" />}
-      {children}
-    </Link>
-  );
 
   return (
-    <nav
-      className={`
-      sticky top-0 z-50 bg-white border-b transition-all duration-300
-      ${scrolled ? 'shadow-lg border-gray-200' : 'border-gray-100'}
-    `}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo/Brand */}
-          <Link
-            to="/"
-            className="flex items-center gap-3 group transition-transform hover:scale-105"
-          >
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
-              <Wrench className="w-6 h-6 text-white" />
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-lg shadow-lg">
+              <Wrench className="w-5 h-5 text-white" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                Mechathon
-              </h1>
-              <p className="text-xs text-gray-500 -mt-1">Engineering Club</p>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold tracking-tight text-foreground">Mechathon</span>
+              <span className="text-xs text-muted-foreground -mt-1">Engineering Excellence</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {/* Public Navigation */}
-            {publicNavItems.map((item) => (
-              <NavLink key={item.path} to={item.path} icon={item.icon}>
-                {item.label}
-              </NavLink>
-            ))}
+          <NavigationMenu className="hidden lg:block">
+            <NavigationMenuList className="gap-1 items-center">
+              {publicNavItems.map((item) => (
+                <NavigationMenuItem key={item.path}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to={item.path}
+                      className="flex items-center h-10 px-4 text-sm font-medium transition-colors hover:text-primary"
+                    >
+                      <item.icon className="w-4 h-4 mr-2" />
+                      {item.label}
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              ))}
 
-            {/* Admin Navigation */}
-            {isAuthenticated && (
-              <>
-                <div className="mx-2 w-px h-6 bg-gray-300" />
-                {adminNavItems.map((item) => (
-                  <NavLink key={item.path} to={item.path} icon={item.icon}>
-                    {item.label}
-                  </NavLink>
-                ))}
-              </>
+              {isAuthenticated && (
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="flex items-center h-10 px-4 text-sm font-medium gap-2">
+                    <Settings className="w-4 h-4" />
+                    Admin Panel
+                    <Badge variant="secondary" className="text-xs px-1.5 py-0.5">
+                      {adminFeatures.length}
+                    </Badge>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid w-[640px] grid-cols-2 gap-3 p-4">
+                      <div className="col-span-2 mb-2">
+                        <h4 className="text-sm font-semibold text-foreground mb-1">
+                          Admin Dashboard
+                        </h4>
+                        <p className="text-xs text-muted-foreground">
+                          Manage your platform and content
+                        </p>
+                      </div>
+                      {adminFeatures.map((feature, index) => (
+                        <NavigationMenuLink
+                          key={index}
+                          asChild
+                          className="block rounded-lg p-3 transition-colors hover:bg-muted/50 border border-transparent hover:border-border"
+                        >
+                          <Link to={feature.href}>
+                            <div className="flex items-start gap-3">
+                              <span className="text-lg">{feature.icon}</span>
+                              <div className="flex-1">
+                                <p className="font-medium text-sm text-foreground mb-1">
+                                  {feature.title}
+                                </p>
+                                <p className="text-xs text-muted-foreground line-clamp-2">
+                                  {feature.description}
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              )}
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center gap-3">
+            {isAuthenticated ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
+                className="flex items-center gap-2 hover:bg-destructive hover:text-destructive-foreground"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </Button>
+            ) : (
+              <Link to="/admin/login">
+                <Button variant="default" size="sm" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Admin Login
+                </Button>
+              </Link>
             )}
           </div>
 
-          {/* User Menu / Login Button */}
-          <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
-              <div className="relative">
-                <Button
-                  variant="ghost"
-                  onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 h-auto"
-                >
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <User className="w-4 h-4 text-blue-600" />
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="outline" size="icon" className="relative">
+                <Menu className="h-4 w-4" />
+                {isAuthenticated && (
+                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></div>
+                )}
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[320px] sm:w-[400px]">
+              <SheetHeader className="space-y-4">
+                <SheetTitle className="flex items-center justify-start gap-3">
+                  <div className="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-primary to-primary/80 rounded-lg">
+                    <Wrench className="w-4 h-4 text-white" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-sm font-medium text-gray-900">
-                      {adminData?.name || 'Admin'}
-                    </p>
-                    <p className="text-xs text-gray-500">Administrator</p>
-                  </div>
-                  <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`}
-                  />
-                </Button>
+                  <span className="text-lg font-bold">Mechathon</span>
+                </SheetTitle>
+              </SheetHeader>
 
-                {/* User Dropdown */}
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                    <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-900">{adminData?.name}</p>
-                      <p className="text-sm text-gray-500">{adminData?.email}</p>
-                    </div>
-                    <div className="py-1">
-                      <Link
-                        to="/admin/dashboard"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <LayoutDashboard className="w-4 h-4" />
-                        Dashboard
-                      </Link>
-                      <Link
-                        to="/admin/profile"
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        <User className="w-4 h-4" />
-                        Profile Settings
-                      </Link>
-                      <div className="border-t border-gray-100 my-1" />
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Sign Out
-                      </button>
+              <div className="flex flex-col mt-8 space-y-6">
+                {isAuthenticated && (
+                  <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg border">
+                    <User className="w-5 h-5 text-primary" />
+                    <div>
+                      <p className="font-medium text-sm">{adminData?.name || 'Admin'}</p>
+                      <p className="text-xs text-muted-foreground">Administrator</p>
                     </div>
                   </div>
                 )}
-              </div>
-            ) : (
-              <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-                <Link to="/admin/login" className="flex items-center gap-2">
-                  <Shield className="w-4 h-4" />
-                  Admin Login
-                </Link>
-              </Button>
-            )}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2"
-          >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </Button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 py-4 bg-white/95 backdrop-blur-md relative z-50">
-            <div className="space-y-1">
-              {/* Public Navigation */}
-              {publicNavItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`
-                    flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors
-                    ${
-                      isActivePath(item.path)
-                        ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700'
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                    }
-                  `}
-                >
-                  <item.icon className="w-5 h-5" />
-                  {item.label}
-                </Link>
-              ))}
-
-              {/* Admin Navigation */}
-              {isAuthenticated && (
-                <>
-                  <div className="border-t border-gray-200 my-4" />
-                  <div className="px-3 py-2">
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                      Admin Panel
-                    </p>
-                  </div>
-                  {adminNavItems.map((item) => (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+                    Navigation
+                  </h3>
+                  {publicNavItems.map((item) => (
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`
-                        flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors
-                        ${
-                          isActivePath(item.path)
-                            ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                        }
-                      `}
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-muted"
                     >
-                      <item.icon className="w-5 h-5" />
+                      <item.icon className="w-4 h-4" />
                       {item.label}
                     </Link>
                   ))}
-                </>
-              )}
-
-              {/* User Actions */}
-              <div className="border-t border-gray-200 my-4" />
-              {isAuthenticated ? (
-                <div className="space-y-1">
-                  <div className="px-3 py-2 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <User className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">{adminData?.name}</p>
-                      <p className="text-xs text-gray-500">Administrator</p>
-                    </div>
-                  </div>
-                  <Link
-                    to="/admin/profile"
-                    className="flex items-center gap-3 px-3 py-3 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
-                  >
-                    <User className="w-5 h-5" />
-                    Profile Settings
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-3 px-3 py-3 text-sm text-red-600 hover:bg-red-50 rounded-lg w-full text-left"
-                  >
-                    <LogOut className="w-5 h-5" />
-                    Sign Out
-                  </button>
                 </div>
-              ) : (
-                <Link
-                  to="/admin/login"
-                  className="flex items-center justify-center gap-2 mx-3 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
-                >
-                  <Shield className="w-5 h-5" />
-                  Admin Login
-                </Link>
-              )}
-            </div>
-          </div>
-        )}
+
+                {isAuthenticated && (
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="admin-features" className="border-none">
+                      <AccordionTrigger className="text-sm font-semibold text-muted-foreground uppercase tracking-wider hover:no-underline">
+                        Admin Panel ({adminFeatures.length})
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-1 pt-2">
+                        {adminFeatures.map((feature, index) => (
+                          <Link
+                            key={index}
+                            to={feature.href}
+                            className="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors hover:bg-muted group"
+                          >
+                            <span className="text-base">{feature.icon}</span>
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-foreground group-hover:text-primary">
+                                {feature.title}
+                              </p>
+                              <p className="text-xs text-muted-foreground line-clamp-1">
+                                {feature.description}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                )}
+
+                <div className="pt-4 border-t border-border">
+                  {isAuthenticated ? (
+                    <Button
+                      variant="outline"
+                      onClick={logout}
+                      className="w-full flex items-center gap-2 hover:bg-destructive hover:text-destructive-foreground"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </Button>
+                  ) : (
+                    <Link to="/admin/login" className="block w-full">
+                      <Button variant="default" className="w-full flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Admin Login
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
-
-      {/* Overlay for mobile menu */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setIsMenuOpen(false)}
-        />
-      )}
-
-      {/* Overlay for user dropdown */}
-      {isUserMenuOpen && (
-        <div
-          className="fixed inset-0 z-40 hidden md:block"
-          onClick={() => setIsUserMenuOpen(false)}
-        />
-      )}
     </nav>
   );
 };
 
-export default Navbar;
+export { Navbar };
