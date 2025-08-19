@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { AuthProvider } from '@/context/AuthContext';
 
-import Home from '@/pages/Home';
-import Blogs from '@/pages/Blogs';
-import History from '@/pages/History';
-import LoginPage from '@/pages/LoginPage';
-import RegisterPage from '@/pages/RegisterPage';
-import DashboardPage from '@/pages/DashboardPage';
+import Home from '@/pages/common/Home';
+import Blogs from '@/pages/common/Blogs';
+import History from '@/pages/common/History';
+import LoginPage from '@/pages/admin/LoginPage';
+import RegisterPage from '@/pages/admin/RegisterPage';
+import DashboardPage from '@/pages/admin/DashboardPage';
 import ProtectedRoute from '@/components/common/ProtectedRoute';
 import { Navbar } from '@/components/common/Navbar';
 

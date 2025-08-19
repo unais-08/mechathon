@@ -35,7 +35,7 @@ export const fetchAllBlogs = async (req, res) => {
       JOIN admins ON blogs.author_id = admins.id
       ORDER BY blogs.created_at DESC
     `);
-    console.log(result.rows)
+    // console.log(result.rows)
     return successResponse(res, 'Blogs fetched', result.rows);
   } catch (err) {
     return errorResponse(res, 'Failed to fetch blogs', 500, err.message);

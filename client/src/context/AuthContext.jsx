@@ -12,17 +12,17 @@ const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('adminToken');
     const adminInfo = localStorage.getItem('adminData');
 
-   if (token && adminInfo) {
-    try {
-      const parsedAdmin = JSON.parse(adminInfo);
-      setIsAuthenticated(true);
-      setAdminData(parsedAdmin);
-    } catch (error) {
-      console.error('Invalid JSON in localStorage for adminData:', error);
-      localStorage.removeItem('adminToken');
-      localStorage.removeItem('adminData');
+    if (token && adminInfo) {
+      try {
+        const parsedAdmin = JSON.parse(adminInfo);
+        setIsAuthenticated(true);
+        setAdminData(parsedAdmin);
+      } catch (error) {
+        console.error('Invalid JSON in localStorage for adminData:', error);
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminData');
+      }
     }
-  }
     setLoading(false);
   }, []);
 
